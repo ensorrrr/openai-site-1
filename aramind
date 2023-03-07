@@ -1,0 +1,66 @@
+  <div class="response"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@openai/api@0.4.6/dist/openai-api.min.js"></script>
+  <script>
+    const OPENAI_API_KEY = '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';
+    const OPENAI_MODEL_ID = 'text-davinci-003';
+
+    const form = document.querySelector('#form');
+    const response = document.querySelector('.response');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault(); // prevent the form from submitting normally
+
+      // Get the user's input from the form
+      const userInput = document.querySelector('#input').value;
+
+      // Call the OpenAI API to generate a response
+      const openaiResponse = await openai.completions.create({
+        engine: OPENAI_MODEL_ID,
+        prompt: userInput,
+        max_tokens: 4000,
+        n: 1,
+        temperature: 0.9,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        },
+      });
+
+      // Get the generated text from the response
+      const generatedText = openaiResponse.choices[0].text;
+
+      // Create a new text box
+      const textBox = document.createElement('textarea');
+
+      // Set the text box value to the generated text
+      textBox.value = generatedText;
+
+      // Add the text box to the DOM
+      response.appendChild(textBox);
+
+      // Add the generated text to the form as a hidden field
+      const inputField = document.createElement('input');
+      inputField.type = 'hidden';
+      inputField.name = 'output';
+      inputField.value = generatedText;
+      form.appendChild(inputField);
+
+      // Submit the form using an XMLHttpRequest object
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', form.action);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          // Redirect to the new page with the text result
+          window.location.href = xhr.responseText;
+        }
+      };
+      xhr.send(new FormData(form));
+
+      // Clear the input field
+      document.querySelector('#input').value = '';
+    });
+  </script>
+
+</body>
