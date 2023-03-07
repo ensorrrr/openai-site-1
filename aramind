@@ -18,13 +18,13 @@
       const tone = document.querySelector('#tone').value;
       const relevantinfo = document.querySelector('#relevantinfo').value;
       const audience = document.querySelector('#audience').value;
-      const word-count = document.querySelector('#word-count').value;
+      const wordCount = document.querySelector('#word-count').value;
       const references = document.querySelector('#references').value;
 
       // Call the OpenAI API to generate a response
       const openaiResponse = await openai.completions.create({
         engine: OPENAI_MODEL_ID,
-        prompt: title, tone, relevantinfo, audience, word-count, references,
+        prompt: title, tone, relevantinfo, audience, wordCount, references,
         max_tokens: 4000,
         n: 1,
         temperature: 0.9,
