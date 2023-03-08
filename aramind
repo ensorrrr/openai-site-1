@@ -1,6 +1,8 @@
 <body>  
   
-  <div class="response"></div>
+  <div id="response">
+    <textarea id="generated-text"></textarea>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@openai/api@0.4.6/dist/openai-api.min.js"></script>
   <script>
@@ -8,7 +10,8 @@
     const OPENAI_MODEL_ID = 'gpt-3.5-turbo';
 
     const form = document.querySelector('#form');
-    const response = document.querySelector('.response');
+    const response = document.querySelector('#response');
+    const generatedText = document.querySelector('#generated-text');
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault(); // prevent the form from submitting normally
@@ -35,22 +38,16 @@
       });
 
       // Get the generated text from the response
-      const generatedText = openaiResponse.choices[0].text;
+      const generatedTextValue = openaiResponse.choices[0].text;
 
-      // Create a new text box
-      const textBox = document.createElement('textarea');
-
-      // Set the text box value to the generated text
-      textBox.value = generatedText;
-
-      // Add the text box to the DOM
-      response.appendChild(textBox);
+      // Set the value of the generated text box to the generated text
+      generatedText.value = generatedTextValue;
 
       // Add the generated text to the form as a hidden field
       const inputField = document.createElement('input');
       inputField.type = 'hidden';
       inputField.name = 'output';
-      inputField.value = generatedText;
+      inputField.value = generatedTextValue;
       form.appendChild(inputField);
 
       // Submit the form using an XMLHttpRequest object
