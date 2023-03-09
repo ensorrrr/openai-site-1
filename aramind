@@ -4,7 +4,6 @@
     <textarea id="generated-text"></textarea>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@openai/api@0.4.6/dist/openai-api.min.js"></script>
   <script>
     const OPENAI_API_KEY = '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';
     const OPENAI_MODEL_ID = 'gpt-3.5-turbo';
